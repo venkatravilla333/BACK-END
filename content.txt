@@ -1,0 +1,249 @@
+                                                Node js Content
+                                                ===============
+
+1) what is nodejs?
+
+Node.js is a JavaScript runtime environment that allows you to run JavaScript code outside of a web browser. It is built on Chrome’s V8 JavaScript engine & C++ and is commonly used for backend development to build scalable and high-performance web & mobile applications.
+
+2) Node js architecture?
+
+Node js contains v8 engine and c++, Node js is a runtime environment for js. By using js we can work with node environment.
+
+
+3) How nodejs works?
+
+Node.js follows a Single-Threaded Event Loop architecture, which allows it to handle multiple requests efficiently using asynchronous, non-blocking I/O operations. This makes it highly scalable for real-time applications.
+
+How Node.js Works Step-by-Step:
+
+1️.Client Request Comes In:
+  A user requests a resource (e.g fetching data from a database).
+
+2️.Event Loop Receives the Request:
+  The request is sent to the event loop, which determines if it’s a simple or complex task.
+  Simple tasks (e.g processing small data): Handled directly by the event loop.
+  Complex tasks (e.g database queries, file system operations): Sent to worker threads.
+
+3️.Non-Blocking I/O Operations:
+  Heavy operations (e.g database queries, file reads) are delegated to worker threads.
+  The event loop does not block and continues handling other incoming requests.
+
+4️.Callback Execution:
+  Once the worker thread completes the task, the result is added to the callback queue. The event loop picks the task from the callback queue and executes the associated callback function.
+
+5️.Response Sent to Client:
+  Once the callback is executed, the final response is sent back to the client.
+
+
+4) how to install node js & run node js?
+
+   download node from node.org & install node in our system.
+
+5) How to write first program in node js?
+
+   create a parent (root) js file& write some js code.
+
+   node jsfilename
+
+=> Module system in node js
+   ------------------------
+
+  global Object in nodejs
+  -----------------------
+
+- In Node.js, the global object is an object that is available everywhere in your application without needing to import or require it. It is similar to window in the browser but is named global in Node.js
+
+- We don’t have the window object in Node. 
+
+- The global object in Node is “global”.
+ 
+- Unlike browser applications, variables we define are not added to the “global” 
+  object. 
+
+  What is module?
+  -------------- 
+- Every file in a Node application is a module. Node automatically wraps the code 
+  in each file with an IIFE (Immediately-invoked Function Expression) to create 
+  scope. So, variables and functions defined in one file are only scoped to that file 
+  and not visible to other files unless explicitly exported. 
+
+- To export a variable or function from a module, you need to add them to 
+  module.exports: 
+
+- In Node.js, every module is wrapped inside a Module Wrapper Function before execution. This function provides a private scope for each module,preventing variable conflicts and allowing better modularity.
+
+  What is the Module Wrapper Function?
+
+  When you create a Node.js module, it is automatically wrapped in a function like this:
+
+  (function(exports, require, module, __filename, __dirname) {
+    // Your module code here
+  });
+
+  Provides Useful Arguments:
+
+  exports → A shortcut for module.exports (used for exporting module functionality).
+  require → Used to import other modules.
+  module → Represents the current module and helps in exporting functionality.
+  __filename → The absolute path of the current module file.
+  __dirname → The directory name of the current module file.
+
+  module.exports.sayHello = sayHello; 
+ 
+  How to load module?
+  ------------------
+
+- To load a module, use the require function. This function returns the 
+  module.exports object exported from the target module: 
+
+  const logger = require(‘./logger’);
+
+  Built in modules
+  ----------------
+
+- Node has a few built-in modules that enable us to work with the file system, path objects, network, operating system, etc. 
+
+  os module
+  ---------
+  The os module in Node.js is a built-in module that provides information about the operating system, such as CPU, memory, network interfaces, and more. It helps developers interact with the system on which their Node.js application is running.
+
+  const os = require('os');
+
+  console.log("Operating System:", os.platform());
+  console.log("Architecture:", os.arch());
+  console.log(os.hostname());
+  console.log("Total Memory:", os.totalmem());
+  console.log("Free Memory:", os.freemem());
+  console.log("Uptime (seconds):", os.uptime());
+  console.log("CPU Info:", os.cpus());
+  console.log("Network Interfaces:", os.networkInterfaces());
+
+  fs module
+  ---------
+
+  The fs (File System) module in Node.js is a built-in module that allows developers to interact with the file system. It can be used to read, write, update, delete, and manage files and directories.
+
+  The fs module provides both synchronous and asynchronous methods. Asynchronous methods are preferred for non-blocking operations.
+
+  Reading a File - fs.readFile()
+  Writing file   - fs.writeFile()
+  Appending file - fs.appendFile()
+  Deleting file  - fs.unlink()
+  Creating Dir   - fs.mkdir()
+  Removing a Directory - fs.rmdir()
+  Checking File Exists - fs.access()
+  Renaming a File      - fs.rename()
+
+
+  path module
+  -----------
+
+  The path module in Node.js is a built-in module used for working with file and directory paths.
+
+  path.basename()
+
+  Returns the last part (file name) of a given path.
+
+  path.dirname()
+
+  Returns the directory name of a given path.
+
+  path.extname()
+
+  Returns the file extension from a given path.
+
+
+  events module
+  -------------
+
+  The events module in Node.js allows us to create and handle custom events. It follows the Observer pattern, where an EventEmitter object emits events and listeners respond to those events.
+
+- EventEmitter is one of the core classes in Node that allows us to raise (emit) and handle events. Several built-in classes in Node derive from EventEmitter. 
+
+  How to Use the events Module?
+
+const EventEmitter = require('events');
+
+1. Creating an Event Emitter:
+
+The EventEmitter class is used to create an event emitter instance.
+
+
+const eventEmitter = new EventEmitter();
+
+2. Registering an Event Listener
+
+Use .on() or .addListener() to listen for an event.
+
+eventEmitter.on('greet', () => {
+    console.log('Hello, Node.js!');
+});
+
+3. Emitting an Event
+
+Use .emit() to trigger an event.
+
+eventEmitter.emit('greet'); // Output: Hello, Node.js!
+
+4. Passing Arguments to Events
+
+We can pass data when emitting an event.
+
+eventEmitter.on('greetUser', (name) => {
+    console.log(`Hello, ${name}!`);
+});
+
+eventEmitter.emit('greetUser', 'Alice'); // Output: Hello, Alice!
+
+5. Listening to an Event Only Once
+
+Use .once() to register a listener that executes only once.
+
+eventEmitter.once('firstTime', () => {
+    console.log('This event will run only once.');
+});
+
+eventEmitter.emit('firstTime'); // Output: This event will run only once.
+eventEmitter.emit('firstTime'); // No output
+
+6. Removing an Event Listener
+
+Use .off() or .removeListener() to remove a specific listener.
+
+
+const greet = () => console.log('Hello again!');
+eventEmitter.on('sayHello', greet);
+
+eventEmitter.emit('sayHello'); // Output: Hello again!
+
+eventEmitter.off('sayHello', greet);
+eventEmitter.emit('sayHello'); // No output
+
+
+  http module
+  -----------
+
+ - The http module in Node.js is a built-in module that allows you to create and manage HTTP servers and  clients. It is used to handle requests and responses over the HTTP protocol.
+
+   A client (browser, Postman, or another server) sends an HTTP request to the Node.js server.
+   The http module listens for the request.
+   The server processes the request and sends a response.
+   The client receives the response.
+
+
+  A simple HTTP server can be created using http.createServer():
+
+
+  const http = require('http');
+
+  const server = http.createServer((req, res) => {
+     if(req.url === '/'){
+      res.write('hello);
+      res.end()
+     }
+  });
+
+  server.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+  });
+
