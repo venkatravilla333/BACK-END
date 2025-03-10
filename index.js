@@ -137,4 +137,18 @@ const fs = require('fs')
 // })
 
 
+//Node package manager
+
+const underscore = require('underscore')
+
+
+
+console.log(underscore.contains([1,2,3,4,5], 7))
+
+
+
+
+
+
+
 
