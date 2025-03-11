@@ -45,7 +45,7 @@
 
 //fs module
 
-const fs = require('fs')
+// const fs = require('fs')
 
 
 // fs.readFile('./index.js', 'utf-8', (err, data) => {
@@ -139,11 +139,35 @@ const fs = require('fs')
 
 //Node package manager
 
-const underscore = require('underscore')
+// const underscore = require('underscore')
+
+// const obj = require('mysum')
+
+// var res = obj.sum(1, 2)
+
+// console.log(res)
+
+// console.log(underscore.contains([1,2,3,4,5], 7))
+
+const express = require('express')
+
+require('dotenv').config()
+
+var app = express() //server creation
+
+app.get('/', (req, res) => {
+  res.send('hello from server')
+})
+
+let PORT = process.env.PORT
+
+app.listen(PORT, () => {
+  console.log(`server started in my port ${PORT}`)
+})
 
 
 
-console.log(underscore.contains([1,2,3,4,5], 7))
+
 
 
 
