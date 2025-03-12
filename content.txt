@@ -415,3 +415,275 @@ If npm install is failing due to cache-related errors.
 
 
 
+Expess JS
+=========
+
+What is Express.js?
+
+Express.js is a fast, unopinionated, and minimalist web framework for Node.js used to build web applications and APIs. It simplifies the process of handling HTTP requests, defining routes, and integrating middleware.
+
+How to build server & api
+-------------------------
+npm install express
+
+Create the Express Server
+-------------------------
+const express = require('express');
+
+const app = express();
+
+creating api 
+------------
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the eCommerce API!');
+});
+
+Start the server
+----------------
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+
+
+Nodemon
+-------
+
+nodemon is a tool that automatically restarts your Node.js application whenever it detects file changes. This saves time by eliminating the need to manually stop and restart the server after every code modification.
+
+You can install nodemon globally (to use in any project) or locally (for a specific project).
+
+ - Install Globally (Recommended)
+
+   npm install -g nodemon
+   
+   This allows you to run nodemon in any project.
+
+   Install Locally (For a Specific Project)
+
+-  npm install --save-dev nodemon
+
+   This adds nodemon as a dev dependency in your package.json file.
+
+Instead of running:
+
+- node server.js
+
+- nodemon server.js
+
+Now, whenever you edit and save server.js, nodemon will automatically restart the server.
+
+Configure nodemon in package.json
+---------------------------------
+
+You can update package.json to always use nodemon:
+
+Update the "scripts" section like this:
+
+"scripts": {
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+}
+
+Now, run:
+---------
+npm run dev
+
+This will start the server with nodemon.
+
+Why Use nodemon?
+
+ -Auto-restarts the server when code changes
+ -Faster development (no need to restart manually)
+
+
+Environmental variables
+-----------------------
+
+How to Use Environmental Variables in Node.js?
+
+Step 1: Install dotenv Package
+------------------------------
+
+dotenv loads environment variables from a .env file into process.env. Install it using:
+
+npm install dotenv
+
+Step 2: Create a .env File
+--------------------------
+
+In your project root, create a .env file and add key-value pairs:
+
+PORT=5000
+
+MONGO_URI=mongodb+srv://your_username:your_password@cluster.mongodb.net/ecommerce
+
+JWT_SECRET=mysecretkey
+
+**Never commit the .env file to GitHub! Add it to .gitignore.
+
+Step 3: Load .env in server.js
+------------------------------
+
+Modify your server.js to load .env variables:
+
+
+require('dotenv').config();
+
+const express = require('express');
+
+const app = express();
+
+
+Step 4: Access Environment Variables
+------------------------------------
+
+You can access variables anywhere in your code using process.env.VARIABLE_NAME:
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+
+
+Note:
+
+process.env is a global object in Node.js that allows you to access environment variables. It is used to store configuration settings like database connections, API keys, and secret tokens without hardcoding them in your source code. Now, you can access environmental variables anywhere in your code using process.env
+
+
+In a local development environment, we use .env files, but in production, we set these variables directly in the hosting platform.
+
+Since environment variables are set in the hosting platform, you do not need to upload your .env file. Make sure .env is in .gitignore to prevent it from being pushed to GitHub.
+
+
+
+1. Deploying on Vercel
+----------------------
+
+Vercel is great for hosting small Node.js applications.
+
+Step 1: Install Vercel CLI
+--------------------------
+
+npm install -g vercel
+
+Step 2: Login to Vercel
+-----------------------
+
+vercel login
+
+Step 3: Deploy Your Project
+---------------------------
+
+Navigate to your project directory:
+
+vercel
+
+Step 4: Add Environment Variables in Vercel
+-------------------------------------------
+
+Go to Vercel Dashboard → Select your project
+Click Settings → Environment Variables
+Add your variables
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+STRIPE_SECRET_KEY=your_stripe_key
+
+Deploy again:
+-------------
+
+vercel --prod
+
+
+Parameters
+==========
+
+In Express.js, route parameters and query parameters are two ways to pass data in a URL. They serve different purposes and are accessed differently in your Express routes.
+
+
+Route Parameters (req.params)
+-----------------------------
+
+-What are Route Parameters?
+
+Route parameters are part of the URL path.
+They are used to identify specific resources (e.g., user ID, product ID).
+Defined using : (colon) in the route definition.
+They are accessed using req.params.
+
+const express = require('express');
+const app = express();
+
+// Route with a parameter ":id"
+
+ app.get('/user/:id', (req, res) => {
+    res.send(`User ID: ${req.params.id}`);
+});
+
+app.listen(5000, () => console.log('Server running on port 5000'));
+
+Use Cases of Route Parameters
+-----------------------------
+
+ - Fetching details of a specific user, product, or order
+ - Updating or deleting a resource using an ID
+
+
+Query Parameters (req.query)
+----------------------------
+
+Query parameters are key-value pairs added after ? in the URL.
+
+Used for search, filtering, pagination, and optional parameters.
+
+Accessed using req.query in Express.
+
+const express = require('express');
+const app = express();
+
+app.get('/search', (req, res) => {
+    const name = req.query.name;
+    const age = req.query.age;
+    res.send(`Searching for name: ${name}, age: ${age}`);
+});
+
+app.listen(5000, () => console.log('Server running on port 5000'));
+
+Use Cases of Query Parameters
+-----------------------------
+- Filtering products (/products?category=electronics&price=low)
+- Pagination (/posts?page=2&limit=10)
+- Searching (/users?name=John)
+
+
+HTTP CALLS (API CALLS)
+----------------------
+
+-getAll resources
+
+app.get('/products', (req, res)=>{})
+
+-getSingle resource
+
+app.get('/products/id', (req, res)=>{})
+
+-post resource
+
+app.post('/products', (req, res)=>{})
+
+-update resouce
+
+app.put('/products/id', (req, res)=>{})
+
+-delete resouce
+
+app.delete('/products/id', (req, res)=>{})
+
+

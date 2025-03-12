@@ -155,9 +155,91 @@ require('dotenv').config()
 
 var app = express() //server creation
 
-app.get('/', (req, res) => {
-  res.send('hello from server')
+app.use(express.json()) //middleware for parsing req body
+
+
+
+// app.get('/products', (req, res) => {
+//   // res.send(req.params.id)
+//   // res.send(req.query.name)
+// })
+
+let products = [
+  {
+    id: 1,
+    name: 'laptop',
+    price: 30000
+  },
+  {
+    id: 2,
+    name: 'mobile',
+    price: 20000
+  },
+  {
+    id: 3,
+    name: 'chair',
+    price: 300
+  }
+]
+
+//get all products
+
+app.get('/products', (req, res) => {
+  res.send(products)
 })
+
+//get single product
+
+app.get('/products/:id', (req, res) => {
+  let product = products.find((product) => product.id === parseInt(req.params.id))
+  if (!product) {
+    res.status(404).send('Product not found with given id')
+  }
+  return res.status(200).send(product)
+})
+
+//create product
+
+app.post('/products', (req, res) => {
+  
+  let newProduct = {
+    id: products.length + 1,
+    name: req.body.name,
+    price: req.body.price
+  }
+  products.push(newProduct)
+  res.send(newProduct)
+  console.log(newProduct)
+})
+
+
+//update product
+
+app.put('/products/:id', (req, res) => {
+    let product = products.find((product) => product.id === parseInt(req.params.id))
+  if (!product) {
+    res.status(404).send('Product not found with given id')
+  }
+  product.price = req.body.price
+  return res.send(product)
+})
+
+//delete single product
+
+app.delete('/products/:id', (req, res) => {
+   let product = products.find((product) => product.id === parseInt(req.params.id))
+  if (!product) {
+    res.status(404).send('Product not found with given id')
+  }
+
+  let index = products.indexOf(product)
+
+  products.splice(index, 1)
+
+  return res.send(product)
+
+})
+
 
 let PORT = process.env.PORT
 
