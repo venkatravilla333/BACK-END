@@ -150,14 +150,20 @@
 // console.log(underscore.contains([1,2,3,4,5], 7))
 
 const express = require('express')
+let Joi = require('joi')
+const authentication = require('./middlewares/auth')
+const logger = require('./middlewares/logger')
 
 require('dotenv').config()
 
 var app = express() //server creation
 
+// app.use(cors())
+
 app.use(express.json()) //middleware for parsing req body
 
-
+app.use(logger)
+app.use(authentication)
 
 // app.get('/products', (req, res) => {
 //   // res.send(req.params.id)
@@ -201,6 +207,17 @@ app.get('/products/:id', (req, res) => {
 //create product
 
 app.post('/products', (req, res) => {
+
+  let schema = Joi.object({
+    name: Joi.string().min(3).required(),
+    price: Joi.number().min(4).required()
+  }) 
+  let { error } = schema.validate(req.body)
+
+  if (error) {
+    console.log(error)
+    res.status(400).send(error.details[0].message)
+  }
   
   let newProduct = {
     id: products.length + 1,
@@ -216,6 +233,19 @@ app.post('/products', (req, res) => {
 //update product
 
 app.put('/products/:id', (req, res) => {
+
+  //   let schema = Joi.object({
+  //   name: Joi.string().min(3).required(),
+  //   price: Joi.number().min(4).required()
+  // }) 
+  // let { error } = schema.validate(req.body)
+
+  // if (error) {
+  //   console.log(error)
+  //   res.status(400).send(error.details[0].message)
+  // }
+
+ 
     let product = products.find((product) => product.id === parseInt(req.params.id))
   if (!product) {
     res.status(404).send('Product not found with given id')
@@ -246,7 +276,6 @@ let PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`server started in my port ${PORT}`)
 })
-
 
 
 
