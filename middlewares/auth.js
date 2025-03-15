@@ -1,6 +1,7 @@
-function authentication(req, res, next) {
-  console.log('auth')
+
+function auth(req, res, next) {
+  console.log('Authentication')
   next()
 }
 
-module.exports = authentication
+module.exports = auth

@@ -150,125 +150,49 @@
 // console.log(underscore.contains([1,2,3,4,5], 7))
 
 const express = require('express')
-let Joi = require('joi')
-const authentication = require('./middlewares/auth')
-const logger = require('./middlewares/logger')
+
 
 require('dotenv').config()
 
 var app = express() //server creation
 
+var productsRouter = require('./routes/products')
+
+var auth = require('./middlewares/auth')
+var login= require('./middlewares/login')
+const morgan = require('morgan')
+const { default: helmet } = require('helmet')
+
 // app.use(cors())
 
-app.use(express.json()) //middleware for parsing req body
+app.use(express.json()) //middleware for parsing req body (Default middleware)
+app.use(express.urlencoded({extended:true}))
+app.use(express.static('public'))
 
-app.use(logger)
-app.use(authentication)
+
+app.use(login)
+
+app.use(helmet())
+
+// console.log(process.env.NODE_ENV)
+// console.log(app.get())
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('tiny'))
+  console.log('Morgan enabled') 
+}
+if (process.env.NODE_ENV === 'production') {
+  app.use(auth)
+  console.log('auth enabled') 
+}
 
 // app.get('/products', (req, res) => {
 //   // res.send(req.params.id)
 //   // res.send(req.query.name)
 // })
 
-let products = [
-  {
-    id: 1,
-    name: 'laptop',
-    price: 30000
-  },
-  {
-    id: 2,
-    name: 'mobile',
-    price: 20000
-  },
-  {
-    id: 3,
-    name: 'chair',
-    price: 300
-  }
-]
-
-//get all products
-
-app.get('/products', (req, res) => {
-  res.send(products)
-})
-
-//get single product
-
-app.get('/products/:id', (req, res) => {
-  let product = products.find((product) => product.id === parseInt(req.params.id))
-  if (!product) {
-    res.status(404).send('Product not found with given id')
-  }
-  return res.status(200).send(product)
-})
-
-//create product
-
-app.post('/products', (req, res) => {
-
-  let schema = Joi.object({
-    name: Joi.string().min(3).required(),
-    price: Joi.number().min(4).required()
-  }) 
-  let { error } = schema.validate(req.body)
-
-  if (error) {
-    console.log(error)
-    res.status(400).send(error.details[0].message)
-  }
-  
-  let newProduct = {
-    id: products.length + 1,
-    name: req.body.name,
-    price: req.body.price
-  }
-  products.push(newProduct)
-  res.send(newProduct)
-  console.log(newProduct)
-})
+app.use('/products', productsRouter)
 
 
-//update product
-
-app.put('/products/:id', (req, res) => {
-
-  //   let schema = Joi.object({
-  //   name: Joi.string().min(3).required(),
-  //   price: Joi.number().min(4).required()
-  // }) 
-  // let { error } = schema.validate(req.body)
-
-  // if (error) {
-  //   console.log(error)
-  //   res.status(400).send(error.details[0].message)
-  // }
-
- 
-    let product = products.find((product) => product.id === parseInt(req.params.id))
-  if (!product) {
-    res.status(404).send('Product not found with given id')
-  }
-  product.price = req.body.price
-  return res.send(product)
-})
-
-//delete single product
-
-app.delete('/products/:id', (req, res) => {
-   let product = products.find((product) => product.id === parseInt(req.params.id))
-  if (!product) {
-    res.status(404).send('Product not found with given id')
-  }
-
-  let index = products.indexOf(product)
-
-  products.splice(index, 1)
-
-  return res.send(product)
-
-})
 
 
 let PORT = process.env.PORT
@@ -276,6 +200,8 @@ let PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`server started in my port ${PORT}`)
 })
+
+
 
 
 
