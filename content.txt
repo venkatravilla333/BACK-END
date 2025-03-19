@@ -1,3 +1,4 @@
+
                                                 Node js Content
                                                 ===============
 
@@ -29,7 +30,8 @@ How Node.js Works Step-by-Step:
   The event loop does not block and continues handling other incoming requests.
 
 4️.Callback Execution:
-  Once the worker thread completes the task, the result is added to the callback queue. The event loop picks the task from the callback queue and executes the associated callback function.
+  Once the worker thread completes the task, the result is added to the callback queue.
+  The event loop picks the task from the callback queue and executes the associated callback function.
 
 5️.Response Sent to Client:
   Once the callback is executed, the final response is sent back to the client.
@@ -51,7 +53,7 @@ How Node.js Works Step-by-Step:
   global Object in nodejs
   -----------------------
 
-- In Node.js, the global object is an object that is available everywhere in your application without needing to import or require it. It is similar to window in the browser but is named global in Node.js
+- In Node.js, the global object is an object that is available everywhere in your application without      needing to import or require it. It is similar to window in the browser but is named global in Node.js
 
 - We don’t have the window object in Node. 
 
@@ -70,7 +72,7 @@ How Node.js Works Step-by-Step:
 - To export a variable or function from a module, you need to add them to 
   module.exports: 
 
-- In Node.js, every module is wrapped inside a Module Wrapper Function before execution. This function provides a private scope for each module,preventing variable conflicts and allowing better modularity.
+- In Node.js, every module is wrapped inside a Module Wrapper Function before execution. This function     provides a private scope for each module,preventing variable conflicts and allowing better modularity.
 
   What is the Module Wrapper Function?
 
@@ -101,11 +103,12 @@ How Node.js Works Step-by-Step:
   Built in modules
   ----------------
 
-- Node has a few built-in modules that enable us to work with the file system, path objects, network, operating system, etc. 
+- Node has a few built-in modules that enable us to work with the file system, path 
+  objects, network, operating system, etc. 
 
   os module
   ---------
-  The os module in Node.js is a built-in module that provides information about the operating system, such as CPU, memory, network interfaces, and more. It helps developers interact with the system on which their Node.js application is running.
+  The os module in Node.js is a built-in module that provides information about the operating system,      such as CPU, memory, network interfaces, and more. It helps developers interact with the system on       which their Node.js application is running.
 
   const os = require('os');
 
@@ -121,9 +124,9 @@ How Node.js Works Step-by-Step:
   fs module
   ---------
 
-  The fs (File System) module in Node.js is a built-in module that allows developers to interact with the file system. It can be used to read, write, update, delete, and manage files and directories.
+  The fs (File System) module in Node.js is a built-in module that allows developers to interact with      the file system. It can be used to read, write, update, delete, and manage files and directories.
 
-  The fs module provides both synchronous and asynchronous methods. Asynchronous methods are preferred for non-blocking operations.
+  The fs module provides both synchronous and asynchronous methods. Asynchronous methods are preferred     for non-blocking operations.
 
   Reading a File - fs.readFile()
   Writing file   - fs.writeFile()
@@ -156,9 +159,10 @@ How Node.js Works Step-by-Step:
   events module
   -------------
 
-  The events module in Node.js allows us to create and handle custom events. It follows the Observer pattern, where an EventEmitter object emits events and listeners respond to those events.
+  The events module in Node.js allows us to create and handle custom events. It follows the Observer       pattern, where an EventEmitter object emits events and listeners respond to those events.
 
-- EventEmitter is one of the core classes in Node that allows us to raise (emit) and handle events. Several built-in classes in Node derive from EventEmitter. 
+- EventEmitter is one of the core classes in Node that allows us to raise (emit) and 
+  handle events. Several built-in classes in Node derive from EventEmitter. 
 
   How to Use the events Module?
 
@@ -223,7 +227,7 @@ eventEmitter.emit('sayHello'); // No output
   http module
   -----------
 
- - The http module in Node.js is a built-in module that allows you to create and manage HTTP servers and  clients. It is used to handle requests and responses over the HTTP protocol.
+ - The http module in Node.js is a built-in module that allows you to create and manage HTTP servers and    clients. It is used to handle requests and responses over the HTTP protocol.
 
    A client (browser, Postman, or another server) sends an HTTP request to the Node.js server.
    The http module listens for the request.
@@ -238,7 +242,11 @@ eventEmitter.emit('sayHello'); // No output
 
   const server = http.createServer((req, res) => {
      if(req.url === '/'){
-      res.write('hello);
+      res.write('hello');
+      res.end()
+     }
+     if(req.url === '/products'){
+      res.write([{name: 'apple', price: 100}]);
       res.end()
      }
   });
@@ -246,6 +254,7 @@ eventEmitter.emit('sayHello'); // No output
   server.listen(3000, () => {
     console.log('Server running on http://localhost:3000');
   });
+
 
 
 NODE PACKAGE MANAGER (NPM)
@@ -553,12 +562,14 @@ app.listen(PORT, () => {
 
 Note:
 
-process.env is a global object in Node.js that allows you to access environment variables. It is used to store configuration settings like database connections, API keys, and secret tokens without hardcoding them in your source code. Now, you can access environmental variables anywhere in your code using process.env
+process.env is a global object in Node.js that allows you to access environment variables. It is used to store configuration settings like database connections, API keys, and secret tokens without hardcoding them in your source code.
+Now, you can access environmental variables anywhere in your code using process.env
 
 
 In a local development environment, we use .env files, but in production, we set these variables directly in the hosting platform.
 
-Since environment variables are set in the hosting platform, you do not need to upload your .env file. Make sure .env is in .gitignore to prevent it from being pushed to GitHub.
+Since environment variables are set in the hosting platform, you do not need to upload your .env file.
+Make sure .env is in .gitignore to prevent it from being pushed to GitHub.
 
 
 
@@ -686,30 +697,6 @@ app.put('/products/id', (req, res)=>{})
 
 app.delete('/products/id', (req, res)=>{})
 
-
-HTTP CALLS (API CALLS)
-----------------------
-
--getAll resources
-
-app.get('/products', (req, res)=>{})
-
--getSingle resource
-
-app.get('/products/id', (req, res)=>{})
-
--post resource
-
-app.post('/products', (req, res)=>{})
-
--update resouce
-
-app.put('/products/id', (req, res)=>{})
-
--delete resouce
-
-app.delete('/products/id', (req, res)=>{})
-
 input validation
 ----------------
 
@@ -736,7 +723,19 @@ Middlewares in express
 
 Middleware
 ----------
-Middleware in Express.js is a function that sits between the request and response cycle. It processes the request before it reaches the final route handler or modifies the response before sending it back to the client.
+
+-It is a function, It takes a request object, and either returns a response to client or passes control   to another middleware function.
+
+-Middleware in Express.js is a function that sits between the request and response cycle. It processes    the request before it reaches the final route handler or modifies the response before sending it back    to the client.
+
+
+app.use
+-------
+
+-app.use() registers middleware functions.
+-Middleware runs before route handlers functions.
+-It can be used for logging, authentication, error handling, parsing request data, etc.
+-It can be applied to all routes or specific routes.
 
 Custom Middleware
 -----------------
@@ -767,7 +766,7 @@ express.static('public') – Serves static files like images, CSS, JavaScript. (
 Use Case:
 --------
 
-Handling request data (JSON, form submissions)
+Handling request data (JSON)
 Serving static files (CSS, images, JavaScript)
 Processing URL-encoded payloads.
 
@@ -781,4 +780,535 @@ Third-party middleware is installed via npm to add extra functionalities like CO
 cors – Enables cross-origin requests.
 morgan – Logs HTTP requests.
 helmet – Secures HTTP headers.
+
+helmet is a middleware for security in Express.js. It helps protect your app from common web vulnerabilities by setting various HTTP headers.
+
+helmet is an essential middleware for securing Express apps.
+It sets various HTTP headers to protect against XSS, clickjacking, MIME sniffing, and more.
+Highly recommended for any production application.
+
+By default, helmet() enables multiple security-related headers:
+
+
+How to set environmets
+----------------------
+In Express.js, environment variables help manage different settings for development, testing, and production environments. The most common way to manage them is using process.env and a .env file.
+
+
+Create a .env File in the Project Root
+--------------------------------------
+
+PORT=5000
+NODE_ENV=production
+DB_URL=mongodb://localhost:27017/mydatabase
+SECRET_KEY=mysecretpassword
+
+
+Setting Environment Variables Manually
+--------------------------------------
+
+If you don’t use .env, you can set environment variables manually in the terminal:
+
+On Windows (Command Prompt)
+
+set PORT=4000
+set NODE_ENV=production
+
+Node.js provides process.env to access environment variables.
+
+app.get('/', (req, res) => {
+  res.send(`Running in ${process.env.NODE_ENV || 'development'} mode`);
+});
+
+
+*** You can use different .env files for development, production, and testing. ***
+
+
+Template Engine
+---------------
+
+A template engine like EJS, Pug, or Handlebars is useful when:
+
+You are building server-side rendered (SSR) web pages.
+You need dynamic HTML with variables from the backend.
+
+You don’t need a template engine if:
+------------------------------------
+
+You are building a REST API (JSON responses).
+You are using a frontend framework like React, Angular, or Vue.
+You are serving a static website with express.static().
+
+
+Database Integration
+--------------------
+
+We have to install drivers in node js to work with databases for various databases
+
+
+Authentication & Authorization
+------------------------------
+
+How to secure API end points
+
+
+
+Express Router
+==============
+
+express.Router() allows you to create modular, mountable route handlers in Express.js. It helps keep your routes organized and maintainable by separating them into different files.
+
+const express = require('express');
+const router = express.Router();
+
+-export the router
+
+module.exports = router;
+
+-Import the router
+
+const userRoutes = require('./routes/userRoutes');
+
+-Use the router with a base path
+
+app.use('/users', userRoutes);
+
+
+
+synchronous and asynchronous programing
+=======================================
+
+Node.js is single-threaded and non-blocking, which makes it efficient for handling I/O operations. However, it supports both synchronous and asynchronous execution.
+
+
+1. Synchronous Execution (Blocking)
+
+- Executes code line by line.
+- Each operation must complete before moving to the next one.
+- Blocks the event loop if an operation takes a long time.
+
+Example (Synchronous File Read)
+const fs = require('fs');
+
+console.log("Start");
+const data = fs.readFileSync('file.txt', 'utf8'); // Blocking
+console.log(data);
+console.log("End");
+
+-The execution pauses at `readFileSync` until the file is completely read.
+
+
+2.Asynchronous Execution (Non-Blocking)
+
+- Operations run in the background.
+- Execution continues without waiting.
+- Uses callbacks, promises, and async/await to handle results.
+
+A. Using Callbacks
+
+A callback function is passed as an argument and executes after an operation completes.
+
+Example (Asynchronous File Read - Callback)
+
+const fs = require('fs');
+
+console.log("Start");
+fs.readFile('file.txt', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(data);
+});
+console.log("End");
+
+Output (Non-blocking)
+
+Start
+End
+(file content here)
+
+Problem with Callbacks: If you have multiple nested callbacks, it leads to "Callback Hell", making the code hard to read.
+
+
+B. Using Promises
+
+A Promise represents a value that might be available now, later, or never.
+
+Example (Using Promises)
+
+const fs = require('fs').promises;
+
+console.log("Start");
+fs.readFile('file.txt', 'utf8')
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+console.log("End");
+
+Advantage: Avoids callback hell, improves readability.
+
+C. Using Async/Await (Best Approach)
+async/await makes asynchronous code look like synchronous code.
+
+Example (Using Async/Await)
+
+const fs = require('fs').promises;
+
+async function readFile() {
+    try {
+        console.log("Start");
+        const data = await fs.readFile('file.txt', 'utf8');
+        console.log(data);
+        console.log("End");
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+readFile();
+
+Benefits of Async/Await
+
+- Cleaner syntax.
+- Easier error handling using `try...catch`.
+
+
+| Feature        | Callbacks          | Promises           | Async/Await        |
+|---------------|-------------------|-------------------|-------------------|
+| Readability   | Low (Callback Hell) | Moderate (Chained `.then()`) | High (Simple & Clean) |
+| Error Handling | Nested callbacks | `.catch()` method | `try...catch` |
+| Debugging     | Harder | Easier | Easiest |
+
+When to Use What?
+-----------------
+- Use Callbacks when working with older APIs that do not support promises.
+- Use Promises when handling multiple async tasks (e.g., chaining multiple API calls).
+- Use Async/Await for cleaner, more readable code.
+
+
+
+
+What is MongoDB
+===============
+
+MongoDB is a NoSQL database that stores data in a document-oriented format, meaning it uses JSON-like documents instead of traditional relational tables. It is designed for scalability, flexibility, and high performance.
+
+Key Features of MongoDB:
+
+- Document-based Storage: Stores data in BSON (Binary JSON) format.
+- Schema-less: No predefined schema, making it flexible.
+- Scalability: Supports horizontal scaling via sharding.
+- Indexing: Supports various types of indexes for faster queries.
+- High Availability: Uses replication for data redundancy.
+- Aggregation Framework: Provides powerful data processing features.
+
+---
+
+Why Use MongoDB?
+
+MongoDB is chosen over traditional relational databases (like MySQL or PostgreSQL) when:
+1. Flexible Schema is needed (e.g., dynamic or changing data structures).
+2. High Write & Read Performance is required.
+3. Scalability is a priority (for big data applications).
+4. Handling Large Amounts of Unstructured Data (e.g., IoT, analytics, logs).
+5. Cloud & Big Data Applications need distributed storage.
+
+---
+
+When to Use MongoDB?
+
+Best for:
+
+- E-commerce platforms.
+- Social media applications.
+- Real-time analytics.
+- IoT and big data applications.
+- Content management systems.
+
+
+To install and set up MongoDB on a **Windows system**, follow these steps:
+
+
+Step 1: Download MongoDB
+
+1. Visit the [MongoDB Community Edition Download page](https://www.mongodb.com/try/download/community).
+2. Select:
+   - Version: Choose the latest stable version.
+   - Platform: Windows.
+   - Package: MSI (Recommended).
+3. Click Download and wait for the installer to complete.
+
+
+Step 2: Install MongoDB
+
+1. Run the MSI installer that you downloaded.
+2. In the MongoDB Setup Wizard:
+   - Click Next.
+   - Accept the License Agreement → Click Next.
+   - Choose Complete Installation.
+   - Ensure Run MongoDB as a Service is checked.
+   - Click Install and wait for the installation to complete.
+   - Click Finish after installation.
+
+Step 3: Add MongoDB to System PATH
+
+To use MongoDB commands from any directory in the Command Prompt:
+1. Open File Explorer and navigate to:
+  
+   C:\Program Files\MongoDB\Server\<your-version>\bin
+  
+2. Copy the full path.
+3. Add it to the Windows PATH:
+   - Press `Win + R`, type `sysdm.cpl`, and press Enter.
+   - Go to Advanced → Click Environment Variables.
+   - Under System variables, find `Path`, select it, and click Edit.
+   - Click New, paste the copied MongoDB `bin` path, and click OK.
+
+
+
+Step 4: Create a MongoDB Data Directory
+
+MongoDB stores data in `/data/db`, which needs to be created manually:
+1. Open Command Prompt (cmd) as Administrator.
+2. Run:
+   mkdir C:\data\db
+3. This creates the required data directory for MongoDB.
+
+Step 5: Start MongoDB
+
+1. Open ommand Prompt.
+2. Run:
+   mongod
+   
+3. If everything is set up correctly, you should see a message indicating that MongoDB is running.
+
+
+Step 6: Verify MongoDB Installation
+
+1. Open another Command Prompt and type:
+  
+   mongo
+   
+2. If MongoDB is running correctly, it will open the MongoDB shell.
+
+Step 8: Connect to MongoDB
+
+To connect your application to MongoDB, use the default connection string:
+
+mongodb://localhost:27017
+
+
+Mongodb atlas
+=============
+
+MongoDB Atlas is a cloud-based MongoDB service that provides a fully managed database.
+
+Step 1: Create a MongoDB Atlas Account
+
+Step 2: Create a New Cluster
+
+Step 3: Set Up Database Access
+
+Step 4: Allow Network Access
+
+Step 5: Connect to Your Cluster
+
+
+Install mongodb compass
+=======================
+
+By using mongodb compass client can connet directly with mongodb server, without open server everytime.
+
+
+
+What is Mongoose?
+================
+
+Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It provides a structured way to define schemas, validate data, and interact with MongoDB using JavaScript. 
+
+
+Why Use Mongoose?
+================
+Mongoose simplifies working with MongoDB by providing:
+
+-Schema-based modeling – Defines a structured format for data.
+-Data validation – Ensures only valid data is stored in MongoDB.
+-Middleware – Runs functions before/after saving documents.
+-Built-in query functions – Provides an easier way to query data.
+-Relationships & Population – Supports referencing documents like SQL joins.
+
+
+How to Use Mongoose?
+===================
+
+1)Connect to MongoDB
+--------------------
+
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost:27017/mydatabase", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.error("Connection Error:", err));
+
+2) Define a Schema
+------------------
+
+A schema is a blueprint for documents in a MongoDB collection.
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: { type: Number, min: 18 },
+  createdAt: { type: Date, default: Date.now }
+});
+
+3) Create a Model
+-----------------
+
+A model is a constructor that creates documents based on the schema.
+
+
+const User = mongoose.model("User", userSchema);
+
+
+4) Create / get / update / delete document in momgodb
+   --------------------------------------------------
+
+CRUD Operations in MongoDB (Create, Read, Update, Delete)
+
+You can perform CRUD operations in MongoDB using Mongoose in a Node.js application.
+
+
+CRUD Operations in MongoDB (Create, Read, Update, Delete)
+ 
+You can perform CRUD operations in MongoDB using Mongoose in a Node.js application.  
+
+Step 1: Install & Connect to MongoDB
+
+Install Mongoose
+
+Run the following command in your Node.js project:  
+
+npm install mongoose
+
+Connect to MongoDB (Local or Atlas)
+
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost:27017/mydatabase", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.error("Connection Error:", err));
+
+For MongoDB Atlas, replace "mongodb://localhost:27017/mydatabase" with your Atlas connection string.
+
+Step 2: Define a Schema & Model
+
+Create a `models/user.js` file:
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    age: { type: Number, min: 18 },
+    createdAt: { type: Date, default: Date.now }
+});
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
+
+Step 3: CRUD Operations
+
+Create a Document (Insert)
+
+const User = require("./models/user");
+
+Create a new user
+
+const createUser = async () => {
+    try {
+        const newUser = new User({ name: "John Doe", email: "john@example.com", age: 25 });
+        const savedUser = await newUser.save();
+        console.log("User Created:", savedUser);
+    } catch (error) {
+        console.error("Error creating user:", error);
+    }
+};
+
+createUser();
+
+Read Documents (Find)
+
+const getUsers = async () => {
+    try {
+        const users = await User.find(); // Get all users
+        console.log("Users:", users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
+    }
+};
+
+getUsers();
+
+Find Specific User
+
+const getUserByEmail = async (email) => {
+    try {
+        const user = await User.findOne({ email });
+        console.log("User Found:", user);
+    } catch (error) {
+        console.error("Error finding user:", error);
+    }
+};
+
+getUserByEmail("john@example.com");
+
+
+Update a Document
+
+const updateUser = async (email, newAge) => {
+    try {
+        const updatedUser = await User.findOneAndUpdate(
+            { email },  // Find user by email
+            { age: newAge },  // Update field
+            { new: true }  // Return updated document
+        );
+        console.log("User Updated:", updatedUser);
+    } catch (error) {
+        console.error("Error updating user:", error);
+    }
+};
+
+updateUser("john@example.com", 30);
+
+
+Delete a Document
+
+const deleteUser = async (email) => {
+    try {
+        const deletedUser = await User.findOneAndDelete({ email });
+        console.log("User Deleted:", deletedUser);
+    } catch (error) {
+        console.error("Error deleting user:", error);
+    }
+};
+
+deleteUser("john@example.com");
+
+
+
+
+
+
+
+
+
+
 
