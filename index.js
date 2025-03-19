@@ -156,6 +156,8 @@ require('dotenv').config()
 
 var app = express() //server creation
 
+var mongoose = require('mongoose')
+
 var productsRouter = require('./routes/products')
 
 var auth = require('./middlewares/auth')
@@ -193,7 +195,16 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/products', productsRouter)
 
 
+// var dbURL = "mongodb+srv://venkat:venkat@cluster0.glsjd.mongodb.net/ecom-db"
+var dbURL = "mongodb://localhost:27017"
 
+mongoose.connect(dbURL)
+  .then(() => {
+    console.log('db connected successfully')
+  })
+  .catch((err) => {
+    console.log('error while connecting db', err)
+})
 
 let PORT = process.env.PORT
 
