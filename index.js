@@ -160,32 +160,32 @@ var mongoose = require('mongoose')
 
 var productsRouter = require('./routes/products')
 
-var auth = require('./middlewares/auth')
-var login= require('./middlewares/login')
-const morgan = require('morgan')
-const { default: helmet } = require('helmet')
+// var auth = require('./middlewares/auth')
+// var login= require('./middlewares/login')
+// const morgan = require('morgan')
+// const { default: helmet } = require('helmet')
 
 // app.use(cors())
 
 app.use(express.json()) //middleware for parsing req body (Default middleware)
-app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'))
+// app.use(express.urlencoded({extended:true}))
+// app.use(express.static('public'))
 
 
-app.use(login)
+// app.use(login)
 
-app.use(helmet())
+// app.use(helmet())
 
 // console.log(process.env.NODE_ENV)
 // console.log(app.get())
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('tiny'))
-  console.log('Morgan enabled') 
-}
-if (process.env.NODE_ENV === 'production') {
-  app.use(auth)
-  console.log('auth enabled') 
-}
+// if (process.env.NODE_ENV === 'development') {
+//   app.use(morgan('tiny'))
+//   console.log('Morgan enabled') 
+// }
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(auth)
+//   console.log('auth enabled') 
+// }
 
 // app.get('/products', (req, res) => {
 //   // res.send(req.params.id)
@@ -195,8 +195,8 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/products', productsRouter)
 
 
-// var dbURL = "mongodb+srv://venkat:venkat@cluster0.glsjd.mongodb.net/ecom-db"
-var dbURL = "mongodb://localhost:27017"
+var dbURL = "mongodb+srv://venkat:venkat@cluster0.glsjd.mongodb.net/ecom-db"
+// var dbURL = "mongodb://localhost:27017"
 
 mongoose.connect(dbURL)
   .then(() => {
